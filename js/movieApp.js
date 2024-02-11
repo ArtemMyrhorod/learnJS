@@ -1,35 +1,59 @@
-let numberOfFilms = +prompt('How many movies did you watch?');
-if (numberOfFilms < 10) {
-  alert('Quite few movies were watched');
-} else if (numberOfFilms < 30) {
-  alert('You are a classical watcher');
-} else if (numberOfFilms >= 30) {
-  alert('You are cool')
-} else {
-  alert('Something wrong')
+'use strict';
+
+let numberOfFilms;
+function start() {
+  numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+  while(numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
+    numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+  }
 }
-let personalMovieDB = {
+// start();
+
+const personalMovieDB = {
   count: numberOfFilms,
   movies: {},
   actors: {},
   genres: [],
-  privat: false
-}
-let movieName;
-let rateOfMovie;
-for (let i = 1; i < 3; i++) {
-  movieName = prompt('Name of the last watched movies?');
-  if (movieName === null || movieName.length === 0 || movieName.length > 50) {
-    alert('Data is invalid. Try one more time.')
-    i--;
-    continue;
+  private: false
+};
+
+function rememberMyFilms () {
+  for (let i = 0; i < 2; i++) {
+    const a = prompt('Один из последних просмотренных фильмов?', ''),
+      b = prompt('На сколько оцените его?', '');
+
+    if (a != null && b != null && a !== '' && b !== '' && a.length < 50) {
+      personalMovieDB.movies[a] = b;
+      console.log('done');
+    } else {
+      console.log('error');
+      i--;
+    }
   }
-  rateOfMovie = +prompt('What is your rate for this movie?');
-  personalMovieDB.movies[`${i}. ${movieName}`] = rateOfMovie;
 }
+// rememberMyFilms();
+function detectPersonalLevel () {
+  if (personalMovieDB.count < 10) {
+    console.log("Просмотрено довольно мало фильмов");
+  } else if (personalMovieDB.count >= 10 && personalMovieDB.count < 30) {
+    console.log("Вы классический зритель");
+  } else if (personalMovieDB.count >= 30) {
+    console.log("Вы киноман");
+  } else {
+    console.log("Произошла ошибка");
+  }
+}
+// detectPersonalLevel();
+function showMyDb (statusOfDB, DB) {
+  if(!statusOfDB) {
+    console.log(DB)
+  }
+}
+showMyDb(personalMovieDB.private, personalMovieDB)
 
-
-// personalMovieDB.movies[movieName] = rateOfMovie;
-
-console.log(personalMovieDB)
-
+function writeYourGenres () {
+  for (let i = 1; i < 4; i++) {
+   personalMovieDB.genres.push( prompt(`Ваш любимий жанр под номером ${i}`));
+  }
+}
+writeYourGenres()
